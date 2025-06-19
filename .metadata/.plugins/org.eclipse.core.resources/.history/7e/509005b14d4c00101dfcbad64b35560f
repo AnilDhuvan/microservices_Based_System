@@ -1,0 +1,28 @@
+spring.application.name=user-service
+
+
+
+# H2 JDBC URL (in-memory)
+spring.datasource.url=jdbc:h2:mem:userdb
+
+spring.datasource.username=anil
+spring.datasource.password=9928
+
+spring.datasource.driver-class-name=org.h2.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+
+spring.h2.console.enabled=true
+
+# Set H2 console path (browser access: http://localhost:8080/h2-console)
+spring.h2.console.path=/h2-console
+
+
+# logging.level.org.hibernate.SQL=DEBUG
+# logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE

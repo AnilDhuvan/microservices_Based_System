@@ -1,0 +1,61 @@
+package com.p1.service.Impl;
+
+
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.p1.entity.Order;
+import com.p1.repository.OrderRepository;
+import com.p1.service.OrderService;
+import com.p1.service.UserClient;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class OrderServiceImpl implements OrderService {
+
+    private final OrderRepository orderRepository;
+    private final UserClient userClient;
+
+    @Override
+    public Order createOrder(Order order) {
+        // Optional: validate user existence via Feign
+        UserDto user = userClient.getUserById(order.getUserId());
+
+        if (user == null) {
+            throw new RuntimeException("User not found with id: " + order.getUserId());
+        }
+
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Order updateOrder(Long id, Order updatedOrder) {
+        Order existing = getOrderById(id);
+        existing.setProductName(updatedOrder.getProductName());
+        existing.setQuantity(updatedOrder.getQuantity());
+        existing.setUserId(updatedOrder.getUserId());
+        return orderRepository.save(existing);
+    }
+
+    @Override
+    public void deleteOrder(Long id) {
+        Order order = getOrderById(id);
+        orderRepository.delete(order);
+    }
+}
+

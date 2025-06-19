@@ -1,0 +1,14 @@
+package com.p1.mapper;
+
+import com.p1.dto.OrderDto;
+import com.p1.entity.Order;
+
+@Mapper(componentModel = "spring")
+public interface OrderMapper {
+	
+	OrderDto toDto(Order order);
+	Order toEntity(OrderDto dto)
+	   
+	}
+
+}

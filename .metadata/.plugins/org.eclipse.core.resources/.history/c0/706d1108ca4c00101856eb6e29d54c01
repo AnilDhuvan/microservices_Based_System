@@ -1,0 +1,57 @@
+package com.p1.entity;
+
+
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "products")
+public class Product {
+	
+    @Id
+    private String id;
+  
+    private String name;
+    
+    private String description;
+   
+    private Double price;
+    
+    private Integer stock;
+    
+
+    @CreatedDate
+	private LocalDateTime createDate;
+    
+    @LastModifiedDate
+	private LocalDateTime updateDate;
+    
+    
+//    public Product(String name, String description, Double price, Integer stock) {
+//        this.name = name;
+//        this.description = description;
+//        this.price = price;
+//        this.stock = stock;
+//    }
+//
+//    public Product(String id, String name, String description, Double price, Integer stock) {
+//        this.id = id;
+//        this.name = name;
+//        this.description = description;
+//        this.price = price;
+//        this.stock = stock;
+//    }
+}
+
+
+

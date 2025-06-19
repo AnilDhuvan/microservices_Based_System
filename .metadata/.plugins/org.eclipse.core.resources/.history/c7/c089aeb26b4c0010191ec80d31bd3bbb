@@ -1,0 +1,65 @@
+package com.p1.service.Impl;
+
+
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.p1.dto.OrderDto;
+import com.p1.dto.UserDto;
+import com.p1.entity.Order;
+import com.p1.exception.ResourceNotFoundException;
+import com.p1.repository.OrderRepository;
+import com.p1.service.OrderService;
+import com.p1.service.UserClient;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class OrderServiceImpl implements OrderService {
+
+    private final OrderRepository orderRepo;
+    private final UserClient userClient;
+
+   
+    public OrderDto createOrder(OrderDto orderDto) {
+        //  validate user existence via Feign
+        UserDto user = userClient.getUserById(orderDto.getUserId()).orElseThrow(()-> 
+		 new ResourceNotFoundException("User not found with id: " + orderDto.getUserId());
+
+//        if (user == null) {
+//            throw new RuntimeException("User not found with id: " + orderDto.getUserId());
+//        }
+
+        return orderRepository.save(order);
+    }
+
+    
+    public OrderDto getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+    }
+
+    @Override
+    public List<OrderDto> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public OrderDto updateOrder(Long id, OrderDto rder) {
+        Order existing = getOrderById(id);
+        existing.setProductName(updatedOrder.getProductName());
+        existing.setQuantity(updatedOrder.getQuantity());
+        existing.setUserId(updatedOrder.getUserId());
+        return orderRepository.save(existing);
+    }
+
+    @Override
+    public void deleteOrder(Long id) {
+        Order order = getOrderById(id);
+        orderRepository.delete(order);
+    }
+}
+

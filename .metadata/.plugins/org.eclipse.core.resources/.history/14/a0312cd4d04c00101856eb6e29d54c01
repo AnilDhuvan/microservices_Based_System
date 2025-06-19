@@ -1,0 +1,83 @@
+
+package com.p1.controller;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.p1.dto.ProductDto;
+import com.p1.service.ProductService;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+
+	
+	private  final ProductService productService;
+	
+	 public ProductController(ProductService productService) {
+	        this.productService = productService;
+	    }
+
+	// Build Add Product REST API
+	@PostMapping
+	public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto dto) {
+		
+		System.out.println("==== Incoming DTO ====");
+	    System.out.println("Name: " + dto.getName());
+	    System.out.println("Description: " + dto.getDescription());
+	    System.out.println("Price: " + dto.getPrice());
+	    System.out.println("Stock: " + dto.getStock());
+
+	    System.out.println("==== 2. Incoming DTO ====");
+	    System.out.println(dto);
+		
+		
+		ProductDto saveProduct = productService.createProduct(dto);
+		return new ResponseEntity<>(saveProduct, HttpStatus.CREATED);
+	}
+
+	// Build Get Product Rest ApI
+	@GetMapping("/{id}")
+	public ResponseEntity<ProductDto> getProduct(@PathVariable("id") String id) {
+		ProductDto productByID = productService.getProductById(id);
+		return ResponseEntity.ok(productByID);
+
+	}
+
+	// Build Get All Product Rest ApI
+	@GetMapping
+	public ResponseEntity<List<ProductDto>> getAllProducts() {
+		List<ProductDto> allProduct = productService.getAllProducts();
+		return new ResponseEntity<List<ProductDto>>(allProduct, HttpStatus.OK);
+	}
+
+	// Build Update Product Record ApI
+	@PutMapping("/{id}")
+	public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") String id, @RequestBody ProductDto dto) {
+
+		ProductDto updateProduct = productService.updateProduct(id, dto);
+		return new ResponseEntity<ProductDto>(updateProduct, HttpStatus.OK);
+	}
+
+	// Build Delete Product REST API
+	@DeleteMapping("/{id}")
+	public ResponseEntity<String> deleteProduct(@PathVariable("id") String id) {
+
+		productService.deleteProduct(id);
+		return ResponseEntity.ok("Employee deleted successfully!.");
+	}
+}

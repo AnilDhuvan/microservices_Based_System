@@ -1,0 +1,22 @@
+package com.p1.service;
+
+import java.util.List;
+
+import com.p1.dto.UserDto;
+
+public interface UserService {
+	
+		
+		public UserDto createEmployee(UserDto user);
+		
+		public UserDto getEmployeeByID(Long user);
+		
+		public UserDto updateEmployee(Long userId, UserDto updatedUser);
+		
+		public List<UserDto>  getAllUser();
+		
+		public void deleteEmployee(Long userId);
+
+	}
+
+}

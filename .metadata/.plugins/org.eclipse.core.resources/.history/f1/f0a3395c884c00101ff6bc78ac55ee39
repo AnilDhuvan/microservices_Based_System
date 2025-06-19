@@ -1,0 +1,27 @@
+package com.p1.mapper;
+
+import com.p1.dto.ProductDto;
+import com.p1.entity.Product;
+
+public class ProductMapper {
+
+    public static ProductDto mapToProductDto(Product product) {
+        return ProductDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .stock(product.getStock())
+                .build();
+    }
+
+    public static Product mapToProduct(ProductDto dto) {
+        return Product.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .stock(dto.getStock())
+                .build();
+    }
+}
